@@ -34,7 +34,7 @@ const Contact = () => {
           possible.
         </div>
       )}
-      <h1 className="mb-4">Contact Us</h1>
+      <h1 className="mb-4" style={{color:"blue"}}>Contact Us</h1>
       <p className="lead">
         Thank you for your interest in our poll app. If you have any questions
         or would like to get in touch with us, please use the form below or send

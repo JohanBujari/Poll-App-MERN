@@ -10,6 +10,7 @@ app.delete("/api/logout", UserController.logOutUser);
 app.get("/api/user", UserController.getUser);
 app.put("/api/user/edit/:id", UserController.getOneUserAndUpdate);
 app.get('/api/user/:id', UserController.getUserById);
+app.put('/api/changePassword/:id', UserController.changePassword);
 
 //ADMIN ROUTES
 

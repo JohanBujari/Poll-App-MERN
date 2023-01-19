@@ -30,8 +30,9 @@ passport.use(
     })
   );
   
-  module.exports.registerUser = (req, res, next) => {
+  module.exports.registerUser = async (req, res, next) => {
     const { username, password, email, role } = req.body;
+    console.log(username);
   
     const saltRounds = 10;
   
@@ -135,6 +136,53 @@ passport.use(
       .then((user) => done(null, user))
       .catch((err) => done(err));
   });
+
+  module.exports.changePassword = (req, res, next) => {
+    const { oldPassword, newPassword } = req.body;
+    User.findOne({ _id: req.params.id })
+      .then((user) => {
+        if (!user) {
+          return res.status(401).json({ message: "User not found" });
+        }
+        bcrypt.compare(oldPassword, user.password, (err, isMatch) => {
+          if (err) {
+            return next(err);
+          }
+          if (!isMatch) {
+            return res.status(401).json({ message: "Incorrect password" });
+          }
+          bcrypt.genSalt(10, (err, salt) => {
+            if (err) {
+              return next(err);
+            }
+            bcrypt.hash(newPassword, salt, (err, hash) => {
+              if (err) {
+                return next(err);
+              }
+              const passwordRegex =
+              /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+            if (!passwordRegex.test(newPassword)) {
+              return res.status(400).json({
+                messagePasswordRegex:
+                  "Password must have at least 8 chars, including at least one lower and upper case letter, one number and one special char (?%&!@)",
+              })}
+              User.findOneAndUpdate(
+                { _id: req.params.id },
+                { $set: { password: hash } },
+                { new: true },
+                (err, updatedUser) => {
+                  if (err) {
+                    return next(err);
+                  }
+                  return res.status(200).json({ message: "Password changed successfully", updatedUser });
+                }
+              );
+            });
+          });
+        });
+      })
+      .catch((err) => next(err));
+  }
   
   module.exports.checkAdmin = async (req, res, next) => {
     try {

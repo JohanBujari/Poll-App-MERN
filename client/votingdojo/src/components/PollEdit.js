@@ -47,7 +47,7 @@ const PollEdit = () => {
   }
   return (
     <div style={{display:"flex", flexDirection:"column", marginTop:"150px", gap:"10px"}}>
-      <h4>{poll.question}</h4>
+      <h4 style={{color:"blue"}}>{poll.question}</h4>
       <form onSubmit={submitHandler} style={{display:"flex", gap:"10px", margin:"auto"}}>
         <div>
           <select

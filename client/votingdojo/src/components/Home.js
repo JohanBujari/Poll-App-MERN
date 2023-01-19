@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <div className="container mt-5">
-      <h1 className="mb-4">Vote now on the latest polls</h1>
+      <h1 style={{ color: "blue" }} className="mb-4">
+        Vote now on the latest polls
+      </h1>
       <body>
         <p className="lead">
           With our poll app, you can quickly and easily vote on latest polls on

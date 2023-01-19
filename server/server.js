@@ -3,9 +3,9 @@ const app = express();
 const port = 8000;
 const cors = require("cors");
 const http = require("http");
-const bodyParser = require('body-parser')
+const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 const server = http.createServer();
 const io = require("socket.io")(server);
@@ -35,7 +35,6 @@ app.use(
   })
 );
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -51,6 +50,5 @@ try {
 } catch (err) {
   console.error(`Failed to load routes: ${err.message}`);
 }
-
 
 app.listen(port, () => console.log(`Listening on port: ${port}`));

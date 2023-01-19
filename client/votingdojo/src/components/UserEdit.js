@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { Button, Modal } from "react-bootstrap";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Button, Modal, ModalDialog } from "react-bootstrap";
+import UserProfile from "./UserProfile";
 
-const UserEdit = () => {
+const UserEdit = (props) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
   });
-  const { id } = useParams();
   const [error, setError] = useState("");
+  const [showEdit, setShowEdit] = useState(true);
+  const { id } = useParams();
   const { username, email } = formData;
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { state } = useLocation();
+  const from = state;
 
   useEffect(() => {
     axios
@@ -34,13 +40,9 @@ const UserEdit = () => {
     axios
       .put(`http://localhost:8000/api/user/edit/${id}`, { ...formData })
       .then((res) => {
-        if (res.data.updatedUser.role === "admin") {
-          navigate("/admin");
-          localStorage.setItem("username", res.data.updatedUser.username);
-        } else if (res.data.updatedUser.role === "normal") {
-          navigate("/poll-app");
-          localStorage.setItem("username", res.data.updatedUser.username);
-        }
+        localStorage.setItem("username", res.data.updatedUser.username);
+        navigate(0);
+
         console.log(res);
       })
       .catch((err) => {
@@ -49,17 +51,11 @@ const UserEdit = () => {
       });
   }
 
+  const handleClose = () => setShowEdit(false);
+  const handleShow = () => setShowEdit(true);
+
   return (
-    <div style={{ marginLeft: "500px", marginTop: "60px" }}>
-      <h3
-        style={{
-          fontFamily: "Arial, sans-serif",
-          fontSize: "20px",
-          marginLeft: "-745px",
-        }}
-      >
-        Edit your profile
-      </h3>
+    <div style={{ marginTop: "60px" }}>
       <form
         onSubmit={submitHandler}
         className="row g-3 needs-validation"
@@ -67,7 +63,7 @@ const UserEdit = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          margin: "auto",
+          marginTop: "-50px",
           width: "900px",
         }}
       >
@@ -123,25 +119,18 @@ const UserEdit = () => {
                   : null,
             }}
           />
+          <button
+            style={{ marginLeft: "203px", marginTop: "30px" }}
+            className="btn btn-primary"
+          >
+            Confirm
+          </button>
           <p style={{ color: "red", textAlign: "left" }}>
             {error && error.messageRequired ? error.messageRequired : null}
             {error && error.messageEmail ? error.messageEmail : null}
           </p>
         </div>
-
-        <div class="col-12">
-          <button
-            className="btn btn-primary"
-            type="submit"
-            style={{ float: "left", width: "285px" }}
-          >
-            Confirm
-          </button>
-        </div>
       </form>
-      <Link style={{ marginLeft: "-380px" }} to={`/user/details/${id}`}>
-        Go back
-      </Link>
     </div>
   );
 };

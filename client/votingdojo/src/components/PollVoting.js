@@ -5,6 +5,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Alert, Button } from "react-bootstrap";
+import image from "../image.jpg";
 
 axios.defaults.withCredentials = true;
 
@@ -27,19 +28,20 @@ const PollVoting = (props) => {
       .catch((err) => console.log(err));
   }, [id]);
   try {
-    const updateVoteCount = (pollId, optionId) => {
-      return axios
-        .put(`http://localhost:8000/api/polls/${pollId}/vote/${optionId}`, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          console.log(res);
-          setShow(true);
-        })
-        .catch((err) => {
-          console.log(err);
-          setError(err.response.data);
-        });
+    const updateVoteCount = async (pollId, optionId) => {
+      try {
+        const res = await axios.put(
+          `http://localhost:8000/api/polls/${pollId}/vote/${optionId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(res);
+        setShow(true);
+      } catch (err) {
+        console.log(err);
+        setError(err.response.data);
+      }
     };
 
     const handleBackToList = () => {
@@ -52,18 +54,19 @@ const PollVoting = (props) => {
           <Alert
             show={true}
             variant="danger"
-            style={{ width: "300px", margin: "auto" }}
+            style={{ width: "410px", margin: "auto" }}
           >
-            <Alert.Heading>An error occurred</Alert.Heading>
-            <hr />
-            <p>
+            <Alert.Heading>
               {error.messageAlreadyVoted
                 ? error.messageAlreadyVoted
                 : error.messagePollEnded
                 ? error.messagePollEnded
                 : null}
-            </p>
+            </Alert.Heading>
+            <hr />
+
             <Button
+              style={{ width: "150px" }}
               onClick={() => {
                 setShow(false);
                 handleBackToList();
@@ -98,28 +101,39 @@ const PollVoting = (props) => {
         ) : null}
         {
           <div
-            className="card"
             style={{
               width: "700px",
               height: "200px",
               padding: "30px",
               margin: "auto",
+              marginTop: "30px",
               borderRadius: "15px",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: "100px",
             }}
           >
-            <div className="card-body">
-              <p style={{ fontSize: "30px" }}>{p.question}</p>
+            <img
+              style={{ marginLeft: "-40px" }}
+              height="500px"
+              width="800px"
+              src={image}
+            />
+            <div className="card-body" style={{ marginTop: "100px" }}>
+              <p style={{ fontSize: "45px", color: "blue" }}>{p.question}</p>
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   gap: "30px",
                   justifyContent: "center",
+                  width: "470px",
                 }}
               >
                 {p.options[0].text ? (
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-outline-primary"
                     onClick={() => {
                       updateVoteCount(p._id, p.options[0]._id).then(() =>
                         setShow(true)
@@ -131,7 +145,7 @@ const PollVoting = (props) => {
                 ) : null}
                 {p.options[1].text ? (
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-outline-primary"
                     onClick={() => {
                       updateVoteCount(p._id, p.options[1]._id).then(() =>
                         setShow(true)
@@ -143,7 +157,7 @@ const PollVoting = (props) => {
                 ) : null}
                 {p.options[2].text ? (
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-outline-primary"
                     onClick={() => {
                       updateVoteCount(p._id, p.options[2]._id).then(() =>
                         setShow(true)
@@ -155,7 +169,7 @@ const PollVoting = (props) => {
                 ) : null}
                 {p.options[3].text ? (
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-outline-primary"
                     onClick={() => {
                       updateVoteCount(p._id, p.options[3]._id).then(() =>
                         setShow(true)
@@ -169,9 +183,6 @@ const PollVoting = (props) => {
             </div>
           </div>
         }
-        <p style={{ marginRight: "-580px", marginTop: "10px" }}>
-          <Link to="/poll-app">Go back to polls</Link>
-        </p>
       </div>
     );
   } catch (err) {

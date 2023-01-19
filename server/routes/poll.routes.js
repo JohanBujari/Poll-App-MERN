@@ -3,8 +3,10 @@ const UserController = require('../controller/user.controller');
 
 module.exports = (app) => {
     app.get("/api/polls", VotingController.getPolls);
+    app.get("/api/polls-1", VotingController.getPollsFromLatestToEarliest);
   app.get("/api/polls/:id", VotingController.getOnePollById);
   app.get("/api/polls-most-votes", VotingController.getPollsWithMostVotes);
+  app.get("/api/most-voted-poll", VotingController.getTheMostVotedPoll);
 
 
   app.get(
@@ -34,7 +36,10 @@ module.exports = (app) => {
   );
   app.get(
     "/api/admin/poll/:id",
-    UserController.checkAdmin,
+    VotingController.getOnePollById
+  );
+  app.get(
+    "/api/poll/:id",
     VotingController.getOnePollById
   );
   app.get(

@@ -3,19 +3,19 @@ import React from "react";
 const About = () => {
   return (
     <div class="container mt-5">
-      <h1 class="mb-4">About Us</h1>
+      <h1 style={{color:"blue"}} class="mb-4">About Us</h1>
       <p class="lead">
         Our app features a simple and easy-to-use interface that allows you to
         vote on polls in just a few clicks. You can track the real-time results
         as people cast their votes.
       </p>
-      <h2 class="mb-4 mt-5">Our Mission</h2>
+      <h2 style={{color:"blue"}} class="mb-4 mt-5">Our Mission</h2>
       <p>
         Our mission is to use technology to make a difference in people's lives.
         We believe that by creating easy-to-use and intuitive products and
         services, we can help people accomplish more and achieve their goals.
       </p>
-      <h2 class="mb-4 mt-5">Our Team</h2>
+      <h2 style={{color:"blue"}} class="mb-4 mt-5">Our Team</h2>
       <p>
         Our team is made up of skilled professionals with a wide range of
         expertise and experience. From engineers and designers to marketers and

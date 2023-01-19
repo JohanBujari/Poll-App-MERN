@@ -3,12 +3,14 @@ import { NavLink, useNavigate, Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
 import UserEdit from "./UserEdit";
+import { Dropdown } from "react-bootstrap";
 
 const Navbar = (props) => {
   const [showModalLogout, setShowModalLogout] = useState(false);
 
   const username = localStorage.getItem("username");
   const id = localStorage.getItem("id");
+  const role = localStorage.getItem("role");
   const navigate = useNavigate();
 
   const handleClose = () => setShowModalLogout(false);
@@ -21,7 +23,8 @@ const Navbar = (props) => {
         console.log(res);
         navigate("/");
         localStorage.removeItem("username");
-        localStorage.removeItem("password");
+        localStorage.removeItem("id");
+        localStorage.removeItem("role");
       })
       .catch((err) => console.log(err));
   };
@@ -65,7 +68,7 @@ const Navbar = (props) => {
             Close
           </Button>
           <Button
-            variant="primary"
+            variant="danger"
             onClick={() => {
               handleClose();
               logout();
@@ -77,44 +80,137 @@ const Navbar = (props) => {
       </Modal>
       {!username ? (
         <div>
-          <div className="navbar-nav">
-            <NavLink className="nav-item nav-link" to="/">
+          <div className="navbar-nav" style={{ display: "flex", gap: "20px" }}>
+            <NavLink
+              style={{ color: "darkgrey" }}
+              className="nav-item nav-link"
+              to="/"
+            >
               Home
             </NavLink>
-            <NavLink className="nav-item nav-link" to="/about">
+            <NavLink
+              style={{ color: "darkgrey" }}
+              className="nav-item nav-link"
+              to="/about"
+            >
               About
             </NavLink>
-            <NavLink className="nav-item nav-link" to="/contact">
+            <NavLink
+              style={{ color: "darkgrey" }}
+              className="nav-item nav-link"
+              to="/contact"
+            >
               Contact
             </NavLink>
             <span className="nav-item nav-link" style={{ color: "lightgray" }}>
               |
             </span>
-            <NavLink className="nav-item nav-link" to="/login">
-              Sign in
+            <NavLink
+              style={{ color: "darkblue" }}
+              className="nav-item nav-link"
+              to="/login"
+            >
+              Log in
             </NavLink>
-            <NavLink className="nav-item nav-link" to="/signup">
+            <NavLink
+              style={{ color: "darkblue" }}
+              className="nav-item nav-link"
+              to="/signup"
+            >
               Sign Up
             </NavLink>
           </div>
         </div>
-      ) : (
-        <div>
-          Welcome {username.toLocaleUpperCase()}
-          <Link
-            style={{ textDecoration: "none", marginLeft: "15px" }}
-            to={`/user/details/${id}`}
+      ) : username && role === "normal" ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "25px",
+            marginTop: "10px",
+          }}
+        >
+          <NavLink
+            style={{
+              textDecoration: "none",
+              marginLeft: "15px",
+              color: "darkgrey",
+            }}
+            to="/poll-app"
           >
-            Profile
-          </Link>
-          <span
-            style={{ borderRight: "1px solid black", margin: "0 10px" }}
-          ></span>
-          <Link style={{ textDecoration: "none" }} onClick={() => handleShow()}>
-            Sign out
-          </Link>
+            Home
+          </NavLink>
+          <NavLink
+            style={{
+              textDecoration: "none",
+              marginLeft: "15px",
+              color: "darkgrey",
+            }}
+            to="/contact"
+          >
+            Contact
+          </NavLink>
+          <div style={{ marginTop: "-5px" }}>
+            <Dropdown>
+              <Dropdown.Toggle
+                className="bg-light"
+                style={{
+                  backgroundColor: "white",
+                  color: "darkblue",
+                  border: "none",
+                }}
+                variant="primary"
+                id="dropdown-basic"
+              >
+                Welcome {username.toLocaleUpperCase()}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href={`/user/details/${id}`}>
+                  Profile
+                </Dropdown.Item>
+                <Dropdown.Item onClick={handleShow}>Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
-      )}
+      ) : username && role === "admin" ? (
+        <div style={{ display: "flex", gap: "30px" }}>
+          <NavLink
+            style={{
+              textDecoration: "none",
+              marginLeft: "15px",
+              color: "darkgray",
+            }}
+            to="/admin"
+          >
+            Home
+          </NavLink>
+          <div style={{ marginTop: "-5px" }}>
+            <Dropdown>
+              <Dropdown.Toggle
+                className="bg-light"
+                style={{
+                  backgroundColor: "white",
+                  color: "darkblue",
+                  border: "none",
+                }}
+                variant="primary"
+                id="dropdown-basic"
+              >
+                Welcome {username.toLocaleUpperCase()}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href={`/user/details/${id}`}>
+                  Profile
+                </Dropdown.Item>
+                <Dropdown.Item onClick={handleShow}>Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

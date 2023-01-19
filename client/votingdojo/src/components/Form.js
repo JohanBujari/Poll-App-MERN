@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import { Alert, Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 
 axios.defaults.withCredentials = true;
 
@@ -71,10 +71,11 @@ const Form = () => {
         });
     }
   };
+
   return (
     <div>
       {errorMessageOptions && (
-        <p style={{ color: "red", marginLeft: "-50px", marginTop: "10px" }}>
+        <p style={{ color: "red", marginLeft: "50px", marginTop: "10px" }}>
           {errorMessageOptions}
         </p>
       )}
@@ -87,7 +88,8 @@ const Form = () => {
           display: "flex",
           flexDirection: "column",
           margin: "auto",
-          marginLeft: "40%",
+          marginLeft: "30px",
+          width: "1000px",
         }}
       >
         <div class="col-md-4">
@@ -185,9 +187,7 @@ const Form = () => {
           >
             Create poll
           </button>
-          <p style={{ marginRight: "550px" }}>
-            <Link to="/admin">Back to dashboard</Link>
-          </p>
+          <p style={{ marginRight: "550px" }}></p>
         </div>
       </form>
     </div>

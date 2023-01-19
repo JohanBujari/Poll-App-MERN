@@ -26,11 +26,13 @@ const Login = () => {
         if (res.data.user.role === "admin") {
           localStorage.setItem("username", res.data.user.username);
           localStorage.setItem("id", res.data.user._id);
+          localStorage.setItem("role", res.data.user.role);
 
           navigate("/admin");
         } else if (res.data.user.role === "normal") {
           localStorage.setItem("username", res.data.user.username);
           localStorage.setItem("id", res.data.user._id);
+          localStorage.setItem("role", res.data.user.role);
 
           navigate("/poll-app");
         }
