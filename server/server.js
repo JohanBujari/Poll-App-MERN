@@ -7,8 +7,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const server = http.createServer();
-const io = require("socket.io")(server);
+const socket = require('socket.io');
 
 app.use(
   cors({
@@ -16,9 +15,7 @@ app.use(
     credentials: true,
   })
 );
-io.on("connection", (arg) => {
-  console.log("connected", arg);
-});
+
 const { urlencoded } = require("express");
 const passport = require("passport");
 app.use(express.json(), urlencoded({ extended: true }));
@@ -51,4 +48,18 @@ try {
   console.error(`Failed to load routes: ${err.message}`);
 }
 
-app.listen(port, () => console.log(`Listening on port: ${port}`));
+const server = app.listen(port, () => console.log(`Listening on port: ${port}`));
+const io = socket(server, {
+  cors: {
+      origin: 'http://localhost:3000',
+      methods: ['GET', 'POST', 'PUT'],
+      allowedHeaders: ['*'],
+      credentials: true,
+  }
+});
+io.on('connection', (socket) => {
+  socket.on('vote', arg1 => {
+    console.log(arg1)
+  })
+})
+

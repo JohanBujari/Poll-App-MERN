@@ -6,6 +6,9 @@ import { useLocation } from "react-router-dom";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Alert, Button } from "react-bootstrap";
 import image from "../image.jpg";
+import io from 'socket.io-client';
+
+
 
 axios.defaults.withCredentials = true;
 
@@ -15,6 +18,7 @@ const PollVoting = (props) => {
   const [p, setPoll] = useState({});
   const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
+  const [socket] = useState(() => io(':8000'));
 
   useEffect(() => {
     axios
@@ -34,8 +38,14 @@ const PollVoting = (props) => {
           `http://localhost:8000/api/polls/${pollId}/vote/${optionId}`,
           {
             withCredentials: true,
-          }
+         
+          },
         );
+        setPoll(res.data.updatedPoll)
+        socket.on("vote", res.data.updatedPoll);
+    // note that we're returning a callback function
+    // this ensures that the underlying socket will be closed if App is unmounted
+    // this would be more critical if we were creating the socket in a subcomponent
         console.log(res);
         setShow(true);
       } catch (err) {
@@ -43,7 +53,7 @@ const PollVoting = (props) => {
         setError(err.response.data);
       }
     };
-
+  
     const handleBackToList = () => {
       navigate("/poll-app");
     };
@@ -100,10 +110,12 @@ const PollVoting = (props) => {
           </Alert>
         ) : null}
         {
-          <div
+          <div style={{backgroundColor: "#f8f9fa" }}>
+
+            <div
             style={{
               width: "700px",
-              height: "200px",
+              height: "600px",
               padding: "30px",
               margin: "auto",
               marginTop: "30px",
@@ -112,10 +124,11 @@ const PollVoting = (props) => {
               flexDirection: "row",
               justifyContent: "center",
               gap: "100px",
+              
             }}
           >
             <img
-              style={{ marginLeft: "-40px" }}
+              style={{ marginLeft: "-40px" , borderRadius:"800px" }}
               height="500px"
               width="800px"
               src={image}
@@ -182,6 +195,8 @@ const PollVoting = (props) => {
               </div>
             </div>
           </div>
+          </div>
+          
         }
       </div>
     );

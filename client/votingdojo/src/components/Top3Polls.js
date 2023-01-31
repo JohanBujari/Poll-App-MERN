@@ -3,13 +3,16 @@ import axios from "axios";
 import moment from "moment";
 import { OverlayTrigger } from "react-bootstrap";
 import { Tooltip } from "react-bootstrap";
-import { Link, useFetcher } from "react-router-dom";
+import { Link } from "react-router-dom";
+import io from "socket.io-client";
 
 axios.defaults.withCredentials = true;
 
 const Top3Polls = (props) => {
   const [polls, setPolls] = useState([]);
+  const [poll, setPoll] = useState({});
   const [sort, setSort] = useState("topThreePolls");
+  const [socket] = useState(() => io(":8000"));
 
   useEffect(() => {
     if (sort === "topThreePolls") {
@@ -49,12 +52,13 @@ const Top3Polls = (props) => {
         })
 
         .then((res) => {
+          socket.on("vote", res.data.pollsRetrieved);
           setPolls(res.data.pollsRetrieved);
           console.log(res.data.pollsRetrieved);
         })
         .catch((err) => console.log(err));
     }
-  }, [sort]);
+  }, [sort, socket]);
 
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -68,6 +72,8 @@ const Top3Polls = (props) => {
         flexDirection: "row",
         justifyContent: "center",
         gap: "200px",
+        backgroundColor: "#f8f9fa",
+        width: "1600px",
       }}
     >
       <div
@@ -93,7 +99,7 @@ const Top3Polls = (props) => {
               : null,
         }}
       >
-        <div className="card-body">
+        <div style={{ backgroundColor: "#f8f9fa" }} className="card-body">
           <h1
             style={{
               fontSize: "28px",
@@ -115,7 +121,9 @@ const Top3Polls = (props) => {
                   textAlign: "left",
                   padding: "20px",
                   height: "130px",
-                  backgroundColor: "#f8f9fa",
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                  backgroundColor: "white",
+                  borderRadius: "10px",
                 }}
               >
                 <OverlayTrigger
@@ -184,7 +192,7 @@ const Top3Polls = (props) => {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "60px",
+            gap: "50px",
             marginTop: "30px",
           }}
         >
@@ -198,13 +206,14 @@ const Top3Polls = (props) => {
             style={{
               height: "50px",
               width: "500px",
-              borderRadius: "15px",
               textAlign: "center",
               fontSize: "18px",
               fontFamily: "Verdana, sans-serif",
               fontWeight: "bold",
               color: "blue",
-              backgroundColor: "#f8f9fa",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                  backgroundColor: "white",
+                  borderRadius: "10px",
             }}
             className="form-select "
             value={sort}

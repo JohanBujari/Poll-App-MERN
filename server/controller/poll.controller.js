@@ -1,5 +1,6 @@
 const Poll = require("../model/poll.model");
 const User = require("../model/user.model");
+const socket = require("socket.io-client")("http://localhost:3000");
 
 module.exports.createPoll = (req, res) => {
   const { question, endTime } = req.body;
@@ -139,18 +140,20 @@ module.exports.vote = (req, res) => {
         { new: true }
       )
         .then((updatedPoll) => {
+          const option = updatedPoll.options.find(
+            (option) => option._id == req.params.optionId
+          );
+          const votes = option.votes;
+          socket.emit("vote", votes);
+          console.log(votes);
+
+          req.session.votedPollId = req.params.id;
+          res.status(200).json({ message: "voted succesfully", updatedPoll });
           User.findByIdAndUpdate(
             userId,
             { $push: { polls: updatedPoll._id } },
             { new: true }
-          )
-            .populate("polls")
-            .then((user) => {
-              req.session.votedPollId = req.params.id;
-              socket.emit("vote", updatedPoll);
-              res.json({ message: "voted succesfully", updatedPoll });
-            })
-            .catch((err) => res.json(err));
+          ).populate("polls");
         })
         .catch((err) => res.json(err));
     })

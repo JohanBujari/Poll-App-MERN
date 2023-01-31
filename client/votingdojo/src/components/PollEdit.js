@@ -41,7 +41,7 @@ const PollEdit = () => {
       })
       .then((res) => {
         console.log(res);
-        navigate("/admin");
+        navigate(-1);
       })
       .catch((err) => console.log(err));
   }

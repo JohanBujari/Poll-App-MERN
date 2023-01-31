@@ -27,7 +27,8 @@ const Contact = () => {
     setTimeout(() => setShow(false), 2000);
   };
   return (
-    <div className="container mt-5">
+    <div>
+ <div className="container mt-5" >
       {show && (
         <div className="alert alert-success" role="alert">
           Thank you for your message! We will get back to you as soon as
@@ -52,6 +53,9 @@ const Contact = () => {
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
+          style={{boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "white",
+          borderRadius: "10px"}}
             type="text"
             className="form-control"
             id="name"
@@ -68,6 +72,9 @@ const Contact = () => {
         <div className="form-group">
           <label htmlFor="email">Email address</label>
           <input
+          style={{boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "white",
+          borderRadius: "10px"}}
             type="email"
             className="form-control"
             id="email"
@@ -84,6 +91,9 @@ const Contact = () => {
         <div className="form-group">
           <label htmlFor="message">Message</label>
           <textarea
+          style={{boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "white",
+          borderRadius: "10px"}}
             className="form-control"
             id="message"
             name="message"
@@ -97,6 +107,8 @@ const Contact = () => {
         </button>
       </form>
     </div>
+    </div>
+   
   );
 };
 

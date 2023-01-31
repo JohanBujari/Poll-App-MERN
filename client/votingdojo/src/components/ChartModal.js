@@ -64,7 +64,7 @@ const ChartModal = (props) => {
 
   try {
     return (
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ display: "flex", flexDirection: "row", backgroundColor: "#f8f9fa"  }}>
         <div>
           <Doughnut
             style={{ width: "400px", height: "400px", margin: "70px" }}
@@ -76,22 +76,34 @@ const ChartModal = (props) => {
           <h1 style={{ marginTop: "150px", color: "blue" }}>{poll.question}</h1>
           <div style={{ display: "flex", gap: "30px" }}>
             {poll.options[0].text ? (
-              <p>
+              <p style={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding:"10px"}}>
                 <li>{poll.options[0].text}</li>
               </p>
             ) : null}
             {poll.options[1].text ? (
-              <p>
+              <p style={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding:"10px"}}>
                 <li>{poll.options[1].text}</li>
               </p>
             ) : null}
             {poll.options[2].text ? (
-              <p>
+              <p style={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding:"10px"}}>
                 <li>{poll.options[2].text}</li>
               </p>
             ) : null}
             {poll.options[3].text ? (
-              <p>
+              <p style={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding:"10px"}}>
                 <li>{poll.options[3].text}</li>
               </p>
             ) : null}

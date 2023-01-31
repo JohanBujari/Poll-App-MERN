@@ -2,11 +2,11 @@ const VotingController = require('../controller/poll.controller');
 const UserController = require('../controller/user.controller');
 
 module.exports = (app) => {
-    app.get("/api/polls", VotingController.getPolls);
-    app.get("/api/polls-1", VotingController.getPollsFromLatestToEarliest);
-  app.get("/api/polls/:id", VotingController.getOnePollById);
-  app.get("/api/polls-most-votes", VotingController.getPollsWithMostVotes);
-  app.get("/api/most-voted-poll", VotingController.getTheMostVotedPoll);
+    app.get("/api/polls",UserController.checkNormalUser, VotingController.getPolls);
+    app.get("/api/polls-1",UserController.checkNormalUser,  VotingController.getPollsFromLatestToEarliest);
+  app.get("/api/polls/:id",UserController.checkNormalUser, VotingController.getOnePollById);
+  app.get("/api/polls-most-votes",UserController.checkNormalUser, VotingController.getPollsWithMostVotes);
+  app.get("/api/most-voted-poll",UserController.checkNormalUser,  VotingController.getTheMostVotedPoll);
 
 
   app.get(

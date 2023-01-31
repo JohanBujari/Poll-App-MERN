@@ -51,6 +51,8 @@ const Login = () => {
         gap: "30px",
         justifyContent: "right",
         marginTop: "100px",
+       
+          
       }}
     >
       <div>
@@ -117,7 +119,10 @@ const Login = () => {
               value={username}
               onChange={handleChange}
               required
-              style={{ border: error ? "1px solid red" : null }}
+              style={{ border: error ? "1px solid red" : null, boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              borderRadius:"10px"
+               }}
             />
             <p style={{ color: "red", textAlign: "left" }}></p>
           </div>
@@ -137,7 +142,9 @@ const Login = () => {
               id="validationCustom01"
               value={password}
               onChange={handleChange}
-              style={{ border: error ? "1px solid red" : null }}
+              style={{ border: error ? "1px solid red" : null, boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              borderRadius:"10px" }}
             />
             <p style={{ color: "red", textAlign: "left" }}>
               {error && error.messageBlank ? error.messageBlank : null}

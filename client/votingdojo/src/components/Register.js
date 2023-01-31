@@ -115,6 +115,9 @@ const Login = () => {
                     : error.messageUnique
                     ? "1px solid red"
                     : null,
+                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              borderRadius:"10px"
               }}
             />
             <p style={{ color: "red", textAlign: "left" }}>
@@ -147,6 +150,9 @@ const Login = () => {
                     : error.messageEmail
                     ? "1px solid red"
                     : null,
+                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              borderRadius:"10px"
               }}
             />
             <p style={{ color: "red", textAlign: "left" }}>
@@ -176,6 +182,9 @@ const Login = () => {
                     : error.messagePasswordRegex
                     ? "1px solid red"
                     : null,
+                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              borderRadius:"10px"
               }}
             />
             <p style={{ color: "red", textAlign: "left" }}>

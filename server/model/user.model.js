@@ -34,10 +34,10 @@ const UserSchema = mongoose.Schema({
 UserSchema.pre("findOne", function () {
   this.populate("polls", "question");
 });
-UserSchema.pre("save", function (next, update) {
-  update.set({ updated: Date.now() });
-  next();
-});
+// UserSchema.pre("save", function (next, update) {
+//   update.set({ updated: Date.now() });
+//   next();
+// });
 
 const User = mongoose.model("User", UserSchema);
 
