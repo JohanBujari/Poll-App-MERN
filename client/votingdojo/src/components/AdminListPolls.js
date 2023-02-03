@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DeletePoll from "./DeletePoll";
 import ModalVoters from "./ModalVoters";
 import ModalOptionsVotes from "./ModalOptionsVotes";
@@ -14,6 +14,7 @@ const AdminList = (props) => {
   const [disabled, setDisabled] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState("");
   const [show, setShow] = useState(false);
+  const navigate = useNavigate()
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/admin/list-polls", {
@@ -129,7 +130,11 @@ const AdminList = (props) => {
               <Button
                 style={{ width: "100px" }}
                 variant="primary"
-                onClick={handleShow}
+                onClick={() => {
+                  handleShow();
+                  
+                
+                }}
               >
                 Add poll
               </Button>
